@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Conyug - Turn your free time into income. Connect with local gigs in your neighborhood.">
+    <title>Conyug - Turn Your Free Time Into Income</title>
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #00A859;
+            --off-white: #FAFAFA;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--off-white);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #00A859 0%, #008547 100%);
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-green);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #008547;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 168, 89, 0.3);
+        }
+        
+        .btn-secondary {
+            border: 2px solid var(--primary-green);
+            color: var(--primary-green);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--primary-green);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .feature-card {
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 168, 89, 0.15);
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, #00A859 0%, #008547 100%);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Navigation -->
+    <nav class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <img src="conyug.png" alt="Conyug Logo" class="h-16">
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#how-it-works" class="text-gray-700 hover:text-[#00A859] transition">How It Works</a>
+                    <a href="#features" class="text-gray-700 hover:text-[#00A859] transition">Features</a>
+                    <a href="#services" class="text-gray-700 hover:text-[#00A859] transition">Services</a>
+                    <a href="#mission" class="text-gray-700 hover:text-[#00A859] transition">Mission</a>
+                </div>
+                <button onclick="openModal()" class="btn-primary text-white px-6 py-2 rounded-full font-medium">
+                    Download
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient pt-36 pb-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center text-white fade-in-up">
+                <h2 class="text-5xl md:text-7xl font-bold mb-6">
+                    Turn Your Free Time<br>Into Income
+                </h2>
+                <p class="text-xl md:text-2xl mb-4 opacity-95">
+                    Connect. Serve. Earn. Right in your neighborhood.
+                </p>
+                <p class="text-lg md:text-xl max-w-3xl mx-auto mb-10 opacity-90 leading-relaxed">
+                    Conyug creates a new era of connection - uniting those with time and skills to those who need help. From household chores to delivery services, find local gigs or post tasks that need doing.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="openModal()" class="bg-white text-[#00A859] px-8 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105">
+                        Join the community
+                    </button>
+                    <!-- <button onclick="openModal()" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-[#00A859] transition transform hover:scale-105">
+                        Post a Task
+                    </button> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Statement -->
+    <section class="py-20 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 fade-in-up">The Gap We Bridge</h2>
+            <div class="grid md:grid-cols-2 gap-12 mb-10">
+                <div class="fade-in-up p-8 rounded-2xl bg-gradient-to-br from-green-50 to-white border border-green-100">
+                    <h3 class="text-2xl font-bold mb-6 text-[#00A859]">Service Providers</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">✓</span>
+                            <span>Have time and skills but don't know where to find work?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">✓</span>
+                            <span>Want to earn without long-term commitments?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">✓</span>
+                            <span>Looking for flexible, local opportunities?</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="fade-in-up p-8 rounded-2xl bg-gradient-to-br from-green-50 to-white border border-green-100">
+                    <h3 class="text-2xl font-bold mb-6 text-[#00A859]">Task Posters</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">✓</span>
+                            <span>Need help with household chores or errands?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">✓</span>
+                            <span>Looking for reliable local service providers?</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">✓</span>
+                            <span>Want to delegate tasks without hassle?</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <p class="text-center text-2xl font-semibold text-[#00A859] fade-in-up">
+                Conyug brings you together - locally, securely, seamlessly.
+            </p>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works" class="py-20 px-4" style="background-color: var(--off-white);">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-16 fade-in-up">How It Works</h2>
+            
+            <!-- For Gig Seekers -->
+            <div class="mb-16">
+                <h3 class="text-3xl font-bold text-center mb-10 text-[#00A859] fade-in-up">For Gig Seekers</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center fade-in-up feature-card p-8 rounded-2xl">
+                        <div class="step-number w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">1</div>
+                        <h4 class="text-xl font-bold mb-4">Browse Local Gigs</h4>
+                        <p class="text-gray-600">See tasks posted near you in real-time</p>
+                    </div>
+                    <div class="text-center fade-in-up feature-card p-8 rounded-2xl">
+                        <div class="step-number w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">2</div>
+                        <h4 class="text-xl font-bold mb-4">Connect Securely</h4>
+                        <p class="text-gray-600">Contact through call masking - your data stays private</p>
+                    </div>
+                    <div class="text-center fade-in-up feature-card p-8 rounded-2xl">
+                        <div class="step-number w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">3</div>
+                        <h4 class="text-xl font-bold mb-4">Complete & Earn</h4>
+                        <p class="text-gray-600">Do the work, get paid your worth</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- For Task Posters -->
+            <div>
+                <h3 class="text-3xl font-bold text-center mb-10 text-[#00A859] fade-in-up">For Task Posters</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center fade-in-up feature-card p-8 rounded-2xl">
+                        <div class="step-number w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">1</div>
+                        <h4 class="text-xl font-bold mb-4">Post Your Need</h4>
+                        <p class="text-gray-600">Describe the task, set your budget</p>
+                    </div>
+                    <div class="text-center fade-in-up feature-card p-8 rounded-2xl">
+                        <div class="step-number w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">2</div>
+                        <h4 class="text-xl font-bold mb-4">Get Responses</h4>
+                        <p class="text-gray-600">Connect with willing helpers nearby</p>
+                    </div>
+                    <div class="text-center fade-in-up feature-card p-8 rounded-2xl">
+                        <div class="step-number w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold mx-auto mb-6">3</div>
+                        <h4 class="text-xl font-bold mb-4">Get It Done</h4>
+                        <p class="text-gray-600">Work completed, problem solved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="py-20 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4 fade-in-up">Built for India, Built for You</h2>
+            <p class="text-center text-gray-600 mb-16 fade-in-up">Key features that make Conyug unique</p>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card p-8 rounded-2xl fade-in-up border border-gray-100">
+                    <div class="text-4xl mb-4">🗺️</div>
+                    <h3 class="text-xl font-bold mb-3">Hyper-Local Matching</h3>
+                    <p class="text-gray-600">See gigs and helpers near you. Focus on your neighborhood, build local trust.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl fade-in-up border border-gray-100">
+                    <div class="text-4xl mb-4">🔒</div>
+                    <h3 class="text-xl font-bold mb-3">Privacy First</h3>
+                    <p class="text-gray-600">Call masking facility protects both parties. Connect without compromising personal data.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl fade-in-up border border-gray-100">
+                    <div class="text-4xl mb-4">🗣️</div>
+                    <h3 class="text-xl font-bold mb-3">Native Language Support</h3>
+                    <p class="text-gray-600">Available in Hindi, Tamil, Telugu, and Kannada. Communicate in your comfort language.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl fade-in-up border border-gray-100">
+                    <div class="text-4xl mb-4">💰</div>
+                    <h3 class="text-xl font-bold mb-3">Flexible Payment</h3>
+                    <p class="text-gray-600">Set your own rates - paid, unpaid, or negotiable. No platform-dictated pricing.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl fade-in-up border border-gray-100">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold mb-3">No Commitments</h3>
+                    <p class="text-gray-600">Work when you want, how you want. Can be your full-time income or side hustle.</p>
+                </div>
+                
+                <div class="feature-card p-8 rounded-2xl fade-in-up border border-gray-100">
+                    <div class="text-4xl mb-4">🤝</div>
+                    <h3 class="text-xl font-bold mb-3">Community Driven</h3>
+                    <p class="text-gray-600">Help your neighbors, earn respect and income. Build genuine local connections.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-20 px-4" style="background-color: var(--off-white);">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-4 fade-in-up">Every Task, Every Skill Matters</h2>
+            <p class="text-center text-gray-600 mb-16 fade-in-up">If someone needs it done, someone on Conyug can do it</p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center p-6 bg-white rounded-xl fade-in-up hover:shadow-lg transition">
+                    <div class="text-4xl mb-3">🏠</div>
+                    <h4 class="font-semibold">Household Chores</h4>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl fade-in-up hover:shadow-lg transition">
+                    <div class="text-4xl mb-3">🔧</div>
+                    <h4 class="font-semibold">Repairs & Maintenance</h4>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl fade-in-up hover:shadow-lg transition">
+                    <div class="text-4xl mb-3">🚚</div>
+                    <h4 class="font-semibold">Delivery & Pickup</h4>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl fade-in-up hover:shadow-lg transition">
+                    <div class="text-4xl mb-3">👨‍🏫</div>
+                    <h4 class="font-semibold">Teaching & Tutoring</h4>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl fade-in-up hover:shadow-lg transition">
+                    <div class="text-4xl mb-3">💼</div>
+                    <h4 class="font-semibold">Business Support</h4>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl fade-in-up hover:shadow-lg transition">
+                    <div class="text-4xl mb-3">🎨</div>
+                    <h4 class="font-semibold">Creative Services</h4>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl fade-in-up hover:shadow-lg transition">
+                    <div class="text-4xl mb-3">🚗</div>
+                    <h4 class="font-semibold">Transportation</h4>
+                </div>
+                <div class="text-center p-6 bg-white rounded-xl fade-in-up hover:shadow-lg transition">
+                    <div class="text-4xl mb-3">👵</div>
+                    <h4 class="font-semibold">Elder Care</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission -->
+    <section id="mission" class="py-20 px-4 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8 fade-in-up">Our Mission:<br>To let people know that there the term "unemployed" is nothing and they are valued somewhere always.</h2>
+            <div class="text-lg text-gray-700 space-y-6 fade-in-up">
+                <p>In India, countless talented individuals are ready to work but lack opportunities. Local businesses and individuals need help but don't know where to find it. Conyug bridges this gap.</p>
+                
+                <div class="bg-gradient-to-br from-green-50 to-white p-8 rounded-2xl border border-green-100 my-10">
+                    <h3 class="text-2xl font-bold mb-6 text-[#00A859]">We believe everyone deserves:</h3>
+                    <ul class="text-left max-w-2xl mx-auto space-y-3">
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">•</span>
+                            <span>The dignity of earning for their skills</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">•</span>
+                            <span>The freedom to work on their own terms</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">•</span>
+                            <span>Access to opportunities in their own community</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00A859] mr-3 text-xl">•</span>
+                            <span>A platform that respects their language and culture</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <p class="text-xl font-semibold text-[#00A859]">Conyug isn't just an app - it's a movement toward self-reliance, community support, and economic empowerment.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 px-4 hero-gradient text-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl md:text-5xl font-bold mb-8 fade-in-up">Join the Yuga of Connection</h2>
+            <p class="text-xl mb-10 opacity-90 fade-in-up">Be the first of Indians to earn or help on Conyug</p>
+            
+            <div class="max-w-xl mx-auto">
+                <div class="bg-white/10 backdrop-blur-sm p-10 rounded-2xl fade-in-up border border-white/20">
+                    <h3 class="text-3xl font-bold mb-4">Join the Community</h3>
+                    <p class="mb-8 opacity-90 text-lg">Be part of India's growing gig economy revolution</p>
+                    <button onclick="openModal()" class="bg-white text-[#00A859] px-10 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition transform hover:scale-105">
+                        Download
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Card -->
+    <section class="py-20 px-4" style="background-color: var(--off-white);">
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-white p-10 rounded-2xl shadow-lg border-2 border-[#00A859] text-center fade-in-up">
+                <div class="text-5xl mb-6">💚</div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-[#00A859]">I Support This Idea</h2>
+                <p class="text-lg text-gray-700 mb-8 leading-relaxed">
+                    If you're looking forward to this launch and believe in solving unemployment in India, 
+                    let me know! Your support motivates me to bring more ideas and features to tackle real problems.
+                </p>
+                
+                <!-- Support Form -->
+                <form id="supportForm" class="max-w-md mx-auto mb-6">
+                    <div class="mb-4">
+                        <input 
+                            type="text" 
+                            id="contactInput" 
+                            placeholder="Enter your email or phone (10 digits)"
+                            class="w-full px-4 py-3 rounded-full border-2 border-gray-200 focus:border-[#00A859] focus:outline-none text-center"
+                            required
+                        >
+                        <p id="inputError" class="text-red-500 text-sm mt-2 hidden"></p>
+                    </div>
+                    <button 
+                        type="submit" 
+                        id="submitBtn"
+                        class="w-full bg-[#00A859] text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-[#008547] transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="btnText">Share Your Support</span>
+                        <span id="btnLoader" class="hidden">
+                            <svg class="animate-spin h-5 w-5 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Submitting...
+                        </span>
+                    </button>
+                </form>
+                
+                <div id="successMessage" class="hidden bg-green-50 border border-green-200 rounded-2xl p-4 mb-4">
+                    <p class="text-green-700 font-semibold">🎉 Thank you for your support!</p>
+                    <p class="text-green-600 text-sm">We'll keep you updated on our launch.</p>
+                </div>
+                
+                <p class="text-sm text-gray-500">
+                    Or reach out at <a href="mailto:founder@conyug.in" class="text-[#00A859] hover:underline font-medium">founder@conyug.in</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-5 gap-8 mb-8">
+                <div>
+                    <h3 class="text-white text-xl font-bold mb-4" style="color: #00A859;">Conyug</h3>
+                    <p class="text-sm">Where Time Meets Opportunity</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="https://x.com/shymmtry" target="_blank" rel="noopener noreferrer" class="hover:text-[#00A859] transition" aria-label="Twitter">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                        </a>
+                        <a href="https://instagram.com/conyug" target="_blank" rel="noopener noreferrer" class="hover:text-[#00A859] transition" aria-label="Instagram">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="https://linkedin.com/company/conyug" target="_blank" rel="noopener noreferrer" class="hover:text-[#00A859] transition" aria-label="LinkedIn">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        </a>
+                        <a href="mailto:founder@conyug.in" class="hover:text-[#00A859] transition" aria-label="Email">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#how-it-works" class="hover:text-[#00A859] transition">How It Works</a></li>
+                        <li><a href="#features" class="hover:text-[#00A859] transition">Features</a></li>
+                        <li><a href="#services" class="hover:text-[#00A859] transition">Services</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#mission" class="hover:text-[#00A859] transition">About Us</a></li>
+                        <li><a href="/privacy" class="hover:text-[#00A859] transition">Privacy Policy</a></li>
+                        <li><a href="/terms" class="hover:text-[#00A859] transition">Terms of Service</a></li>
+                        <li><a href="/contact" class="hover:text-[#00A859] transition">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/refund" class="hover:text-[#00A859] transition">Refund Policy</a></li>
+                        <li><a href="/disclaimer" class="hover:text-[#00A859] transition">Disclaimer</a></li>
+                        <li><a href="/gdpr" class="hover:text-[#00A859] transition">GDPR</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Languages</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-[#00A859] transition">हिंदी</a></li>
+                        <li><a href="#" class="hover:text-[#00A859] transition">தமிழ்</a></li>
+                        <li><a href="#" class="hover:text-[#00A859] transition">తెలుగు</a></li>
+                        <li><a href="#" class="hover:text-[#00A859] transition">ಕನ್ನಡ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-sm">
+                <p>&copy; 2025 Conyug. All rights reserved. Solving unemployment in India, one gig at a time.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Coming Soon Modal -->
+    <div id="comingSoonModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[100] hidden">
+        <div class="bg-white rounded-3xl p-10 max-w-md mx-4 text-center transform transition-all scale-95 modal-content">
+            <div class="mb-6">
+                <div class="w-20 h-20 bg-gradient-to-br from-[#00A859] to-[#008547] rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <h3 class="text-3xl font-bold text-gray-900 mb-3">App Coming Soon!</h3>
+                <p class="text-gray-600 text-lg mb-6">
+                    We're building something amazing. The Conyug app will be available on Android and iOS very soon.
+                </p>
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-6 mb-6 border border-[#00A859]/20">
+                    <p class="text-sm text-gray-700 mb-4 font-semibold">Get notified when we launch!</p>
+                    
+                    <!-- Notify Form -->
+                    <form id="notifyForm" class="mb-4">
+                        <div class="mb-3">
+                            <input 
+                                type="text" 
+                                id="notifyInput" 
+                                placeholder="Enter your email or phone"
+                                class="w-full px-4 py-3 rounded-full border-2 border-gray-200 focus:border-[#00A859] focus:outline-none text-center text-sm"
+                                required
+                            >
+                            <p id="notifyError" class="text-red-500 text-xs mt-2 hidden"></p>
+                        </div>
+                        <button 
+                            type="submit" 
+                            id="notifySubmitBtn"
+                            class="w-full bg-[#00A859] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#008547] transition disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span id="notifyBtnText">Notify Me at Launch</span>
+                            <span id="notifyBtnLoader" class="hidden">
+                                <svg class="animate-spin h-4 w-4 inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Submitting...
+                            </span>
+                        </button>
+                    </form>
+                    
+                    <div id="notifySuccess" class="hidden bg-white border border-green-300 rounded-xl p-3 mb-3">
+                        <p class="text-green-700 font-semibold text-sm">🎉 You're on the list!</p>
+                        <p class="text-green-600 text-xs">We'll notify you at launch.</p>
+                    </div>
+                </div>
+            </div>
+            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700 font-medium underline">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <style>
+        #comingSoonModal.show {
+            display: flex;
+        }
+        
+        #comingSoonModal.show .modal-content {
+            animation: modalSlideIn 0.3s ease-out forwards;
+        }
+        
+        @keyframes modalSlideIn {
+            from {
+                transform: scale(0.9) translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <!-- Firebase Configuration Script -->
+    <script src="js/firebase-config.js"></script>
+
+    <script>
+        function openModal() {
+            document.getElementById('comingSoonModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('comingSoonModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside
+        document.getElementById('comingSoonModal')?.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Smooth scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Support Form Handling (no Firestore reads; deterministic doc ID to avoid duplicates)
+        document.getElementById('supportForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const input = document.getElementById('contactInput').value.trim();
+            const errorEl = document.getElementById('inputError');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnLoader = document.getElementById('btnLoader');
+            const successMessage = document.getElementById('successMessage');
+            
+            // Validate input
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^[0-9]{10}$/;
+            
+            let contactType = '';
+            let isValid = false;
+            
+            if (emailRegex.test(input)) {
+                contactType = 'email';
+                isValid = true;
+            } else if (phoneRegex.test(input)) {
+                contactType = 'phone';
+                isValid = true;
+            }
+            
+            if (!isValid) {
+                errorEl.textContent = 'Please enter a valid email or 10-digit phone number';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            errorEl.classList.add('hidden');
+            
+            // Check if Firebase is initialized
+            if (!window.db) {
+                errorEl.textContent = 'Firebase not initialized. Please check configuration.';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+            
+            try {
+                // Build deterministic document ID (prevents duplicates without reads)
+                const raw = contactType === 'email' ? input.toLowerCase() : input;
+                const sanitized = raw.replace(/[^a-z0-9._-]/gi, '_');
+                const docId = `${contactType}-${sanitized}`;
+
+                // Data to store
+                const data = {
+                    [contactType]: input,
+                    contactType: contactType,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    source: 'landing-page'
+                };
+                
+                // Write without prior read; merge to be idempotent
+                await window.db.collection('supporters').doc(docId).set(data, { merge: true });
+                
+                // Show success
+                successMessage.classList.remove('hidden');
+                document.getElementById('supportForm').reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(() => {
+                    successMessage.classList.add('hidden');
+                }, 5000);
+                
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                errorEl.textContent = 'Something went wrong. Please try again or email us directly.';
+                errorEl.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.classList.remove('hidden');
+                btnLoader.classList.add('hidden');
+            }
+        });
+        
+        // Notify Form Handling (in modal)
+        document.getElementById('notifyForm')?.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const input = document.getElementById('notifyInput').value.trim();
+            const errorEl = document.getElementById('notifyError');
+            const submitBtn = document.getElementById('notifySubmitBtn');
+            const btnText = document.getElementById('notifyBtnText');
+            const btnLoader = document.getElementById('notifyBtnLoader');
+            const successMessage = document.getElementById('notifySuccess');
+            
+            // Validate input
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const phoneRegex = /^[0-9]{10}$/;
+            
+            let contactType = '';
+            let isValid = false;
+            
+            if (emailRegex.test(input)) {
+                contactType = 'email';
+                isValid = true;
+            } else if (phoneRegex.test(input)) {
+                contactType = 'phone';
+                isValid = true;
+            }
+            
+            if (!isValid) {
+                errorEl.textContent = 'Please enter a valid email or 10-digit phone number';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            errorEl.classList.add('hidden');
+            
+            // Check if Firebase is initialized
+            if (!window.db) {
+                errorEl.textContent = 'Firebase not initialized. Please check configuration.';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnLoader.classList.remove('hidden');
+            
+            try {
+                // Build deterministic document ID (prevents duplicates without reads)
+                const raw = contactType === 'email' ? input.toLowerCase() : input;
+                const sanitized = raw.replace(/[^a-z0-9._-]/gi, '_');
+                const docId = `notify-${contactType}-${sanitized}`;
+
+                // Data to store
+                const data = {
+                    [contactType]: input,
+                    contactType: contactType,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    // Keep source aligned with current Firestore rules
+                    source: 'landing-page'
+                };
+                
+                // Write without prior read; merge to be idempotent
+                await window.db.collection('supporters').doc(docId).set(data, { merge: true });
+                
+                // Show success
+                successMessage.classList.remove('hidden');
+                document.getElementById('notifyForm').reset();
+                
+                // Hide success message and close modal after 3 seconds
+                setTimeout(() => {
+                    successMessage.classList.add('hidden');
+                    closeModal();
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Error submitting notify form:', error);
+                errorEl.textContent = 'Something went wrong. Please try again.';
+                errorEl.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.classList.remove('hidden');
+                btnLoader.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
